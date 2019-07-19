@@ -14,7 +14,7 @@ namespace StaticSiteConverter
         internal async Task ConvertFolderAsync(string inputFolder, string outputFolder)
         {
             foreach (var file in Directory.GetFiles(inputFolder, "*.mdwn"))
-                await _ConvertFileAsync(file, outputFolder + Path.GetFileName(file));
+                await _ConvertFileAsync(file, outputFolder + "\\" + Path.GetFileName(file));
         }
 
         private async Task _ConvertFileAsync(string file, string output)
@@ -24,7 +24,8 @@ namespace StaticSiteConverter
                 using(var writer = new StreamWriter(File.Open(output, FileMode.Create, FileAccess.Write)))
                 {
                     Console.WriteLine("Processing file: " + file);
-                    await _ConvertAsync(reader, writer);                
+                    await _ConvertAsync(reader, writer);         
+                    Console.WriteLine("Created file " + output);       
                 }
             }
         }
@@ -100,6 +101,12 @@ namespace StaticSiteConverter
                 {
                     await writer.WriteLineAsync(line);
                 }
+            }
+
+            if (state == ParseState.Gallery)
+            {
+                // end the image gallery
+                await writer.WriteLineAsync("{{< /gallery >}}");
             }
         }
     }
