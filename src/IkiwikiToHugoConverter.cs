@@ -11,13 +11,19 @@ namespace StaticSiteConverter
         {
         }
 
+        internal async Task ConvertFolderAsync(string inputFolder, string outputFolder)
+        {
+            foreach (var file in Directory.GetFiles(inputFolder, "*.mdwn"))
+                await _ConvertFileAsync(file, outputFolder + Path.GetFileName(file));
+        }
 
-        internal async Task ConvertFileAsync(string file, string output)
+        private async Task _ConvertFileAsync(string file, string output)
         {
             using(var reader = File.OpenText(file))
             {
                 using(var writer = new StreamWriter(File.Open(output, FileMode.Create, FileAccess.Write)))
                 {
+                    Console.WriteLine("Processing file: " + file);
                     await _ConvertAsync(reader, writer);                
                 }
             }
@@ -80,6 +86,8 @@ namespace StaticSiteConverter
                     else 
                     {
                         var endIndex = line.IndexOf(".jpg ");
+                        if (endIndex < 0)
+                            endIndex = line.IndexOf(".png");
 
                         if (endIndex < 0)
                             throw new InvalidOperationException("End of image tag not found!");

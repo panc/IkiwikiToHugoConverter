@@ -7,11 +7,11 @@ namespace StaticSiteConverter
     {
         static async Task Main(string[] args)
         {
-            var file = @"C:\Users\Christoph\Documents\Projekte\pangerl.ch.blog\posts\2015_05_15_RaspberryPi_1.mdwn";
-            var output = @"C:\Users\Christoph\Documents\Projekte\pangerl.ch.blog.azure\content\archive\2015_05_15_RaspberryPi_1.md";
+            var input = @"C:\Users\Christoph\Documents\Projekte\pangerl.ch.privat\posts\2013_Interrail";
+            var output = @"C:\Users\Christoph\Documents\Projekte\pangerl.ch.privat.azure\content\2013_Interrail";
 
             var converter = new IkiwikiToHugoConverter();
-            await converter.ConvertFileAsync(file, output);
+            await converter.ConvertFolderAsync(input, output);
             
             Console.WriteLine("Finished!");
         }
