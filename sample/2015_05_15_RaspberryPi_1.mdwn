@@ -1,0 +1,95 @@
+[[!tag Raspberry]]
+[[!tag Pi]]
+[[!tag Development]]
+[[!meta date="2015-05-15 4:30pm"]]
+[[!meta title="How to create a time lapse camera using a RaspberryPi - Part I"]]
+
+We are planning to build a house in the near future. Thus I was watching for a camera that is able to take pictures in a defined time interval so that we never miss one of our funny moments during our work :) Furthermore it would be possible to create a time lapse video out of these photos which would be a nice way to show the progress of our work.
+
+
+## Which system fits best?
+There are several possibilities out there which can be used for such a use case:
+
+- use a camcorder
+- use a DSLR camera (or compact camera) with auto photo support
+- use dedicated devices like the [Brinno construction camera](http://brinno.com/construction-camera/BCC100)
+
+Most of the solutions I found are not very flexible and do not fit to our needs. The only system which could be used is the brinno construction cam. But the downsides of this camera are it's price (220€ isn't really cheap) and problems when it comes to find a good position for the camera. You can only use the integrated display to setup the position of the camera. It would be nice to have an app (e.g. a web-app or a smartphone-app) where one can see a preview of the pictures the camera will take as you are very often not able to take a look on the integrated display.
+
+
+## Use the flexibility of a Raspberry Pi
+That's why I came up with the idea of building my own system based on a Raspberry Pi. I bought one over a year ago - I played around with it but I found no real use case for it yet. So this was the chance to turn it into a very useful piece of hardware. 
+
+All I need is a camera for the Raspberry Pi. There is a official camera module available which provides a resolution of 5 mega pixel. That should be good enough for taking photos in an appropriate quality ;-)
+
+Using a Raspberry Pi and it's camera module provides some nice advantages:
+
+- *Extensibility:* As we control the whole system (hardware, operating system, software), we can customize it to our needs. E.g. we can extend the system with additional sensors. Thus the system can be adjusted to work for different use cases.
+- *Flexibility:* The full control over the system gives us the ability to change all the settings of the system. From the network settings to the camera parameters and software settings - everything can be configured.
+- *Low price:* The hardware is not that expensive (compared to the features and abilities  we get).
+
+
+## Architecture of the system
+The basic idea of a camera (time-lapse) system using a Raspberry Pi and it's camera module is great. But - as for any kind of camera - you need something where you can see at least a preview of the photos which will be taken. 
+
+Modern cameras are coming with a simple, small display to fulfill this need. Of course such displays are available for the Raspberry Pi. But I thought about how I would use the Time Lapse Camera. I just want to put the camera somewhere, where it fits best. Therefore I would sometimes have to fix the camera somewhere /somehow. Doing this a display is always a bit complicated as I might not be able to see the preview of the photos. As mentioned above the same problem appears when using the *Brinno construction camera*. 
+
+Thus I come up with the idea of simply running a small web server on the Raspberry Pi and providing a webpage which shows the most recent photos taken by the camera. Later on this web interface could also be used to start the time lapse mode or to take custom photos (e.g. for adjusting the camera). A very simple and lightweight way for running a web server on the Raspberry Pi is the use of [NodeJs](https://nodejs.org/). By using a web framework like AngularJs a great web front end can be created.  
+
+A web service is of course only useful as long as the Raspberry Pi is connected to an network. But we can not expect to have an working LAN network at our building lot. And we do not want to connect a notebook (or any other device) via a LAN cable to the PI. So why not simply turning our Raspberry Pi into a WLAN hotspot where any device can be connected to and then has access to the provided web page. All we need is a Wifi dongle for the Raspberry Pi which can be setup as an WIFI hotspot.
+
+So for now the architecture of our system might look something like in the following figure:
+
+[[!img defaults class="fancyimage" alt="tl1"]]
+[[!img images/TimeLapse/TimeLapse_01_Architecture.jpg title="Architecture" size=700x ]]
+
+
+## The Price
+As we can see the system consists mainly of three hardware components. Additionally an SD-Card for the Raspberry Pi is needed. I bought one with a capacity of 32GB so that I do not run in troubles when storing a huge amount of photos. To not always need a power cable to use the Pi an additional accu pack would be nice. I had one lying around at home so didn't need one, but for completion I added one to the list. Last but not least I added a case for Raspberry Pi and the camera module so that it is protected from dust and so on.
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-0ord{text-align:right}
+</style>
+<table class="tg">
+  <tr>
+    <td class="tg-031e"><a href="http://www.amazon.de/Raspberry-Pi-Mainboard-MicroSD-Speicherkartenslot/dp/B00LPESRUK">Raspberry Pi</a></td>
+    <td class="tg-0ord">29,99 &euro;</td>
+  </tr>
+  <tr>
+    <td class="tg-031e"><a href="http://www.amazon.de/SanDisk-SDSDQUN-032G-FFP--Speicherkarte-SD-Adapter-Frustfreie/dp/B00MWXUKEO/ref=sr_1_1?s=ce-accessories&ie=UTF8&qid=1437310736&sr=1-1">32GB SD Card</a></td>
+    <td class="tg-0ord">13,99 &euro;</td>
+  </tr>
+  <tr>
+    <td class="tg-031e"><a href="http://www.amazon.de/Kamera-Modul-f%C3%BCr-Raspberry-Pi/dp/B00E1GGE40">Camera Module</a></td>
+    <td class="tg-0ord">27,90 &euro;</td>
+  </tr>
+  <tr>
+    <td class="tg-031e"><a href="http://www.amazon.de/EDIMAX-EW-7811UN-Wireless-Adapter-IEEE802-11b/dp/B003MTTJOY/ref=pd_sim_147_5/278-1665461-5675758?ie=UTF8&refRID=0GWMMEK58DMVWVXMKDAP">EDIMAX Wifi Dongle</a></td>
+    <td class="tg-0ord">8,85 &euro;</td>
+  </tr>
+  <tr>
+    <td class="tg-031e"><a href="http://www.amazon.de/Anker%C2%AE-13000mAh-Externer-PowerIQ-Technologie/dp/B00BQ5KHJW/ref=sr_1_2?s=ce-de&ie=UTF8&qid=1437714284&sr=1-2&keywords=accu+pack">Accu Pack</a></td>
+    <td class="tg-0ord">23,99 &euro;</td>
+  </tr>
+  <tr>
+    <td class="tg-031e"><a href="http://www.amazon.de/Raspberry-Pi-Geh%C3%A4use-schwarz-MC-RP002-BLK/dp/B00LV9886W/ref=sr_1_32?s=ce-de&ie=UTF8&qid=1437714652&sr=1-32&keywords=raspberry+pi+case">Raspberry Pi Case</a></td>
+    <td class="tg-0ord">7,29 &euro;</td>
+  </tr>
+  <tr>
+    <td class="tg-031e"><b>Total costs</b></td>
+    <td class="tg-0ord"><b>112,01 &euro;</b></td>
+  </tr>
+</table>
+
+I think the price of 112€ is pretty good. Especially when we think about which powerful system we can build with it. Here are also some pictures of the components listed above.
+
+[[!img images/TimeLapse/TimeLapse_02_Components.jpg size=300x ]]
+[[!img images/TimeLapse/TimeLapse_03_Components_conducted.jpg size=300x ]]
+
+## Next Steps
+Now that we know all needed components for the system we have to put them together and configure them. 
+First we are going to setup the operating system and configure the Wifi dongle and the camera. In a next step we are going to write a small application which provides a backend (for taking and storing the photos) and front end (for giving feedback to the user).
+
+
