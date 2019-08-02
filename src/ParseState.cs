@@ -1,4 +1,4 @@
-namespace StaticSiteConverter
+namespace BlogConverter
 {
     enum ParseState
     {

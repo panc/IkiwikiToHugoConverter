@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace StaticSiteConverter
+namespace BlogConverter
 {
     class Program
     {
         static async Task Main(string[] args)
         {
-            var input = args[0];
-            var output = args[1];
+            var command = args[0]?.ToLower();
 
+            if (command == "convertposts")
+                await _ConvertPosts(args[1], args[2]);
+
+            if (command == "extensiontolower")
+                ExtensionModifier.ExtensionToLower(args[1]);
+        }
+
+        private static async Task _ConvertPosts(string input, string output)
+        {
             var converter = new IkiwikiToHugoConverter();
             await converter.ConvertFolderAsync(input, output);
-            
+
             Console.WriteLine("Finished!");
         }
     }
