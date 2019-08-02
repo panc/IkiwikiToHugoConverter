@@ -7,8 +7,8 @@ namespace StaticSiteConverter
     {
         static async Task Main(string[] args)
         {
-            var input = @"C:\Users\Christoph\Documents\Projekte\pangerl.ch.privat\posts\2013_Interrail";
-            var output = @"C:\Users\Christoph\Documents\Projekte\pangerl.ch.privat.azure\content\2013_Interrail";
+            var input = args[0];
+            var output = args[1];
 
             var converter = new IkiwikiToHugoConverter();
             await converter.ConvertFolderAsync(input, output);
@@ -17,3 +17,4 @@ namespace StaticSiteConverter
         }
     }
 }
+    

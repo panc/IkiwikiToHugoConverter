@@ -21,6 +21,8 @@ namespace StaticSiteConverter
         {
             using(var reader = File.OpenText(file))
             {
+                output = Path.ChangeExtension(output, "md");
+
                 using(var writer = new StreamWriter(File.Open(output, FileMode.Create, FileAccess.Write)))
                 {
                     Console.WriteLine("Processing file: " + file);
@@ -49,10 +51,15 @@ namespace StaticSiteConverter
                         tags.Add("\"" + line.Substring(7, line.Length - 2 - 7) + "\"");
 
                     else if (line.StartsWith("[[!meta date="))
-                        await writer.WriteLineAsync("date = " + line.Substring(13, line.Length - 2 - 13));
+                        await writer.WriteLineAsync("date = " + line.Substring(13, line.Length - 3 - 13).Replace("T", " ").Replace("pm", "").Replace("am", "") + ":00+02:00\"");
+
+                    // [[!meta date="2013-07-17 01:03pm"]]
+                    // date = "2015-05-15T12:35:08+02:00"
+
+
 
                     else if (line.StartsWith("[[!meta title="))
-                        await writer.WriteLineAsync("titel = " + line.Substring(14, line.Length - 2 - 14));
+                        await writer.WriteLineAsync("title = " + line.Substring(14, line.Length - 2 - 14));
 
                     else
                     {
