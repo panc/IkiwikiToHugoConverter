@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BlogConverter
 {
-    internal class IkiwikiToHugoConverter
+    internal sealed class IkiwikiToHugoConverter
     {
         public IkiwikiToHugoConverter()
         {
